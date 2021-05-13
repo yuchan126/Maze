@@ -75,6 +75,8 @@ class ViewController: UIViewController {
         
         playerMotionManager = CMMotionManager()
         playerMotionManager.accelerometerUpdateInterval = 0.02
+        
+        startAccelerometer()
     }
         func startAccelerometer(){
             //加速度を取得
@@ -104,7 +106,7 @@ class ViewController: UIViewController {
         }
                 for wallRect in self.wallRectArray{
                     if wallRect.intersects(self.playerView.frame){
-                        self.GameCheck(Result: "gameover", message: "壁に当たりました")
+                        self.GameCheck(result: "gameover", message: "壁に当たりました")
                         return
                     }
                 }
@@ -116,7 +118,7 @@ class ViewController: UIViewController {
                 self.playerView.center = CGPoint(x: posX, y: posY)
             }
             playerMotionManager.startAccelerometerUpdates(to: OperationQueue.main, withHandler: handler)
-            
+        }
             func GameCheck(result:String, message: String){
                 if playerMotionManager.isAccelerometerActive{
                     playerMotionManager.stopAccelerometerUpdates()
@@ -124,13 +126,13 @@ class ViewController: UIViewController {
                 let gameCheckAlert: UIAlertController = UIAlertController(title:result, message: message, preferredStyle: .alert)
                 let retryAction = UIAlertAction(title: "もう一度", style: .default, handler: {
                 (action: UIAlertAction!) -> Void in
-                self.retry()
+                    self.retry()
             })
             gameCheckAlert.addAction(retryAction)
             
             self.present(gameCheckAlert, animated: true, completion: nil)
-                
-            func retry(){
+            }
+             func retry() {
                 playerView.center = startView.center
                 if !playerMotionManager.isAccelerometerActive{
                     self.startAccelerometer()
@@ -140,8 +142,7 @@ class ViewController: UIViewController {
             }
         }
     
-                }
-        
+                
     
     func createView(x: Int, y: Int, width: CGFloat, height: CGFloat, offsetX: CGFloat, offsetY: CGFloat) -> UIView{
         
@@ -152,7 +153,7 @@ class ViewController: UIViewController {
         view.center = center
         return view
     }
-   
+
     
     
     
@@ -169,6 +170,6 @@ class ViewController: UIViewController {
     
 
 
-}
+
 
     
